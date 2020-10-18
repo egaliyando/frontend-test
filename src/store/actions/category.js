@@ -1,16 +1,16 @@
 import axios from "config";
-import { SET_PRODUCT } from "store/types";
+import { SET_CATEGORY } from "store/types";
 
-export const fetchProduct = () => {
+export const fetchCategory = () => {
   return async (dispatch) => {
     const params = {
       headers: { "x-access-token": localStorage.getItem("token") },
     };
     try {
-      const product = await axios.get(`/product`, params);
+      const category = await axios.get(`/category`, params);
       dispatch({
-        type: SET_PRODUCT,
-        product: product.data.products,
+        type: SET_CATEGORY,
+        category: category.data.categories,
       });
     } catch (error) {
       console.log(error.response);

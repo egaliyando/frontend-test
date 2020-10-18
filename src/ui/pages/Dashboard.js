@@ -2,8 +2,11 @@ import React from "react";
 import Main from "ui/containers/Main";
 import Card from "ui/components/Card";
 import ProgressBar from "ui/components/ProgressBar";
+import { Redirect } from "react-router-dom";
 
 const Dashboard = () => {
+  const token = localStorage.token;
+
   const cardTransaction = (
     <div className="w-100 bg-light-gray p-4 br-20">
       <div className="d-flex justify-content-between">
@@ -308,6 +311,9 @@ const Dashboard = () => {
       </div>
     </>
   );
+  if (token === null) {
+    return <Redirect to="/sign-in" />;
+  }
   return <Main content={content} />;
 };
 

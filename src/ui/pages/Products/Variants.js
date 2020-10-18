@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Main from "ui/containers/Main";
 import Header from "ui/containers/Header";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchVariant } from "store/actions/variant";
 
 function Variants() {
+  const dispatch = useDispatch();
+
+  const variant = useSelector((state) => state.variant.variant);
+  console.log(variant);
+  const getVariant = () => {
+    dispatch(fetchVariant());
+  };
+
   const contentHeader = (
     <>
       <div className="d-flex flex-column w-100 pt-4 pb-2 px-4 bg-white">
@@ -84,45 +94,56 @@ function Variants() {
   const content = (
     <>
       <Header content={contentHeader} style="header" />
-      <div className="product d-flex flex-column  mt-2 w-100 px-0">
-        <div className="br-20 bg-card01 px-3 w-100 d-flex align-items-center justify-content-between">
-          <div className="bullet03"></div>
-          <div className="hr-right mx-2"></div>
-          <p className="font-14 fw-200 d-flex justify-content-center mx-5 px-3">Size</p>
-          <div className="hr-right my-2"></div>
+      <div className="product d-flex flex-column mt-2 w-100 px-0">
+        {variant.map((data) => {
+          return (
+            <div
+              key={data.variantId}
+              className="br-20 bg-card01 px-3 w-100 d-flex align-items-center justify-content-between mb-2"
+            >
+              <div className="bullet03"></div>
+              <div className="hr-right mx-2"></div>
+              <p className="font-14 fw-200 d-flex justify-content-center mx-5 px-3">{data.variantName}</p>
+              <div className="hr-right my-2"></div>
 
-          <div className="wrap-select mr-3">
-            <select className="form-control br-20 font-14 border-0 bg-transparent" style={{ appearance: "none" }}>
-              <option>Assigned to 8 products</option>
-              <option>Filter</option>
-            </select>
-            <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
-          </div>
+              <div className="wrap-select mr-3">
+                <select className="form-control br-20 font-14 border-0 bg-transparent" style={{ appearance: "none" }}>
+                  {data.variantOption === null
+                    ? ""
+                    : data.variantOption.map((data, i) => {
+                        return <option key={i}>{data.name}</option>;
+                      })}
+                  }
+                </select>
+                <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
+              </div>
 
-          <div className="hr-right my-2"></div>
-          <div className="wrap-select mr-3">
-            <select className="form-control br-20 font-14 border-0 bg-transparent" style={{ appearance: "none" }}>
-              <option>3 variant options</option>
-              <option>Filter</option>
-            </select>
-            <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
-          </div>
-          <div className="hr-right my-2"></div>
-          <div className="wrap-select mr-3">
-            <select className="form-control br-20 font-14 border-0 bg-transparent" style={{ appearance: "none" }}>
-              <option>Single choose</option>
-              <option>Filter</option>
-            </select>
-            <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
-          </div>
+              <div className="hr-right my-2"></div>
+              <div className="wrap-select mr-3">
+                <select className="form-control br-20 font-14 border-0 bg-transparent" style={{ appearance: "none" }}>
+                  <option>3 variant options</option>
+                  <option>Filter</option>
+                </select>
+                <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
+              </div>
+              <div className="hr-right my-2"></div>
+              <div className="wrap-select mr-3">
+                <select className="form-control br-20 font-14 border-0 bg-transparent" style={{ appearance: "none" }}>
+                  <option>Single choose</option>
+                  <option>Filter</option>
+                </select>
+                <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
+              </div>
 
-          <div className="hr-right my-2"></div>
+              <div className="hr-right my-2"></div>
 
-          <div className="d-flex align-items-center px-3">
-            <button className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20">Add new option</button>
-            <button className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20">Insert product</button>
-          </div>
-        </div>
+              <div className="d-flex align-items-center px-3">
+                <button className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20">Add new option</button>
+                <button className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20">Insert product</button>
+              </div>
+            </div>
+          );
+        })}
         {/* button hidden 01*/}
         <div className="flex-wrap" style={{ marginLeft: "20%", display: "none" }}>
           <button className="btn bg-dark-blue d-flex align-items-center mt-2 text-white fw-200 br-20 px-3 mr-3">
@@ -203,47 +224,8 @@ function Variants() {
           </div>
         </div>
         {/* end btn hidden */}
-        <div className="br-20 bg-card01 px-3 w-100 d-flex align-items-center justify-content-between mt-2">
-          <div className="bullet03"></div>
-          <div className="hr-right mx-2"></div>
-          <p className="font-14 fw-200 d-flex justify-content-center mx-5 px-3">Size</p>
-          <div className="hr-right my-2"></div>
-
-          <div className="wrap-select mr-3">
-            <select className="form-control br-20 font-14 border-0 bg-transparent" style={{ appearance: "none" }}>
-              <option>Assigned to 8 products</option>
-              <option>Filter</option>
-            </select>
-            <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
-          </div>
-
-          <div className="hr-right my-2"></div>
-          <div className="wrap-select mr-3">
-            <select className="form-control br-20 font-14 border-0 bg-transparent" style={{ appearance: "none" }}>
-              <option>3 variant options</option>
-              <option>Filter</option>
-            </select>
-            <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
-          </div>
-          <div className="hr-right my-2"></div>
-          <div className="wrap-select mr-3">
-            <select className="form-control br-20 font-14 border-0 bg-transparent" style={{ appearance: "none" }}>
-              <option>Single choose</option>
-              <option>Filter</option>
-            </select>
-            <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
-          </div>
-
-          <div className="hr-right my-2"></div>
-
-          <div className="d-flex align-items-center px-3">
-            <button className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20">Add new option</button>
-            <button className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20">Insert product</button>
-          </div>
-        </div>
       </div>
       {/* button hidden  */}
-
       <div className="overlay-modal" style={{ display: "none" }}></div>
       <div className="modal-right p-4" style={{ display: "none" }}>
         <div className="w-100 d-flex justify-content-between">
@@ -439,6 +421,10 @@ function Variants() {
       </div>
     </>
   );
+
+  useEffect(() => {
+    getVariant();
+  }, []);
   return <Main content={content} />;
 }
 

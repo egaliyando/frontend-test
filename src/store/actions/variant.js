@@ -1,16 +1,17 @@
 import axios from "config";
-import { SET_PRODUCT } from "store/types";
+import { SET_VARIANTS } from "store/types";
 
-export const fetchProduct = () => {
+export const fetchVariant = () => {
   return async (dispatch) => {
     const params = {
       headers: { "x-access-token": localStorage.getItem("token") },
     };
     try {
-      const product = await axios.get(`/product`, params);
+      const variant = await axios.get(`variant`, params);
+      console.log(variant);
       dispatch({
-        type: SET_PRODUCT,
-        product: product.data.products,
+        type: SET_VARIANTS,
+        variant: variant.data.variants,
       });
     } catch (error) {
       console.log(error.response);

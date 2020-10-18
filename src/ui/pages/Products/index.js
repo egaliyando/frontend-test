@@ -6,18 +6,21 @@ import Header from "ui/containers/Header";
 import { Slide } from "react-reveal";
 import axios from "config";
 
-function Products() {
+function Products(props) {
   //dispath initial
   const dispatch = useDispatch();
   //state all product
   const product = useSelector((state) => state.product.product);
   //state single product
-  const [id, setId] = useState("");
+  const [id, setId] = useState();
   const [name, setName] = useState("");
-  const [code, setCode] = useState("");
-  const [cost, setCost] = useState("");
-  const [price, setPrice] = useState("");
-  // state modal
+  const [code, setCode] = useState(0);
+  const [cost, setCost] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [category, setCategory] = useState(1);
+  const [variants, setVariants] = useState([1]);
+  const [image, setImage] = useState("");
+  //modal state
   const [updateProduct, setUpdateProduct] = useState(false);
   const [createProduct, setCreateProduct] = useState(false);
   // console.log("PRODUCT", product);
@@ -37,10 +40,41 @@ function Products() {
       setCost(productSingle.data.products.productCost);
       setPrice(productSingle.data.products.productPrice);
       setId(productSingle.data.products.productId);
+      setImage(productSingle.data.products.productImage);
+      console.log(productSingle.data.products);
     } catch (error) {
       console.log("error.response");
       console.log(error.response);
     }
+  };
+
+  //post action
+  const postData = () => {
+    let formData = new FormData();
+    formData.append("name", name);
+    formData.append("code", code);
+    formData.append("cost", cost);
+    formData.append("price", price);
+    formData.append("category", 1);
+    formData.append("variants", JSON.stringify([1]));
+    formData.append("image", image);
+
+    axios
+      .post("product", formData, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+          "x-access-token": localStorage.getItem("token"),
+        },
+      })
+      .then(function (response) {
+        window.location.reload(false);
+
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error.response);
+      });
   };
   //put action
   const putData = async (e, id) => {
@@ -49,27 +83,37 @@ function Products() {
     formData.append("code", code);
     formData.append("cost", cost);
     formData.append("price", price);
+    formData.append("category", 1);
+    formData.append("variants", JSON.stringify([1]));
+    formData.append("image", image);
     try {
-      const putProduct = await axios.put(`/product/${id}`, formData, {
-        headers: { "x-access-token": localStorage.getItem("token") },
+      const putProduct = await axios.put(`product/${id}`, formData, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+          "x-access-token": localStorage.getItem("token"),
+        },
       });
       console.log(putProduct);
-      dispatch(fetchProduct());
-      setUpdateProduct(!updateProduct);
+      window.location.reload(false);
+      setUpdateProduct(false);
+      getAllProduct();
     } catch (error) {
       console.log("error.response");
       console.log(error.response);
     }
   };
   //delete action
-  const deleteData = async (e, id) => {
+  const deleteData = (id) => {
     try {
-      const deleteProduct = await axios.delete(`/product/${id}`, {
-        headers: { "x-access-token": localStorage.getItem("token") },
+      const deleteProduct = axios.delete(`product/${id}`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
       });
+      window.location.reload(false);
+      getAllProduct();
       console.log(deleteProduct);
-      dispatch(fetchProduct());
-      setUpdateProduct(!updateProduct);
     } catch (error) {
       console.log("error.response");
       console.log(error.response);
@@ -78,13 +122,11 @@ function Products() {
   //modal create
   const handleCreateModal = () => {
     setCreateProduct(!createProduct);
-    setUpdateProduct(false);
   };
   //modal update
   const handleUpdateModal = (e, id) => {
     getSingle(id);
     setUpdateProduct(true);
-    // setCreateProduct(false);
   };
   const handleCloseUpdate = () => {
     setUpdateProduct(false);
@@ -124,13 +166,11 @@ function Products() {
             </div>
 
             <div
-              onClick={handleUpdateModal}
+              onClick={handleCreateModal}
               className="btn bg-red d-flex align-items-center text-white fw-200 br-20 px-3 sh-btn"
             >
               <img className="mr-2" src={require("assets/images/outlet/icon-add.png")} alt="" />
-              <span onClick={handleCreateModal} className="font-17">
-                add new product
-              </span>
+              <span className="font-17">add new product</span>
             </div>
           </div>
         </div>
@@ -204,7 +244,9 @@ function Products() {
             className="product bg-card01 mt-2 py-2 px-4 br-20 w-100 d-flex align-items-center justify-content-between"
           >
             <div className="bullet03"></div>
-            <div className="wrap-img"></div>
+            <div className="wrap-img">
+              <img src={data.productImage} className="w-100 h-100" alt="" />
+            </div>
             <p className="font-14 fw-200">{data.productCode}</p>
             <div className="hr-right"></div>
             <p className="font-14 fw-200">{data.productName}</p>
@@ -256,7 +298,7 @@ function Products() {
                     <img src={require("assets/images/product/copy (1).png")} alt="" />
                   </div>
                   <div className="d-flex align-items-center mr-5">
-                    <p onClick={(e) => deleteData(e, id)} className="text-gray font-18 mr-3">
+                    <p onClick={() => deleteData(id)} className="text-gray font-18 mr-3">
                       Delete product
                     </p>
                     <img src={require("assets/images/product/trash (1).png")} alt="" />
@@ -266,7 +308,10 @@ function Products() {
               </div>
               <hr className="my-3 mx-0" />
               <div className="d-flex justify-content-between align-items-start">
-                <div className="wrap-img"></div>
+                <div className="wrap-img">
+                  <img src={image} className="w-100 h-100" alt="" />
+                  <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+                </div>
                 <div className="d-flex flex-column">
                   <div className="d-flex align-items-center">
                     <p className="font-14 text-gray w-75 ws-nwrap">Product name</p>
@@ -275,7 +320,6 @@ function Products() {
                       onChange={(e) => setName(e.target.value)}
                       value={name}
                       className="form-control br-20"
-                      placeholder="Martabak Manis"
                     />
                   </div>
                   <div className="d-flex align-items-center mt-2">
@@ -285,7 +329,6 @@ function Products() {
                       name="code"
                       value={code}
                       className="form-control br-20"
-                      placeholder="MTB-001"
                     />
                   </div>
                   <div className="d-flex align-items-center mt-2">
@@ -316,7 +359,6 @@ function Products() {
                       name="cost"
                       value={cost}
                       className="form-control br-20"
-                      placeholder="Rp. 10,000"
                     />
                   </div>
                   <div className="d-flex align-items-center mt-2">
@@ -326,7 +368,6 @@ function Products() {
                       name="price"
                       value={price}
                       className="form-control br-20"
-                      placeholder="Rp. 50,000"
                     />
                   </div>
                 </div>
@@ -411,28 +452,20 @@ function Products() {
               <div className="w-100 d-flex justify-content-between">
                 <h1 className="font-weight-bold font-24">Product information</h1>
                 <div className="d-flex align-items-center">
-                  {/* <div className="d-flex align-items-center mr-5">
-                    <p className="text-gray font-18 mr-3">Duplicate product</p>
-                    <img src={require("assets/images/product/copy (1).png")} alt="" />
-                  </div>
-                  <div className="d-flex align-items-center mr-5">
-                    <p onClick={(e) => deleteData(e, id)} className="text-gray font-18 mr-3">
-                      Delete product
-                    </p>
-                    <img src={require("assets/images/product/trash (1).png")} alt="" />
-                  </div> */}
                   <img onClick={handleCreateModal} src={require("assets/images/product/Close (1).png")} alt="" />
                 </div>
               </div>
               <hr className="my-3 mx-0" />
               <div className="d-flex justify-content-between align-items-start">
-                <div className="wrap-img"></div>
+                <div className="wrap-img">
+                  <input onChange={(e) => setImage(e.target.files[0])} name="file" type="file" />
+                </div>
                 <div className="d-flex flex-column">
                   <div className="d-flex align-items-center">
                     <p className="font-14 text-gray w-75 ws-nwrap">Product name</p>
                     <input
                       name="name"
-                      onChange={(e) => setName(e.target.name)}
+                      onChange={(e) => setName(e.target.value)}
                       className="form-control br-20"
                       placeholder="Martabak Manis"
                     />
@@ -440,7 +473,7 @@ function Products() {
                   <div className="d-flex align-items-center mt-2">
                     <p className="font-14 text-gray w-75 ws-nwrap">Product code</p>
                     <input
-                      onChange={(e) => setCode(e.target.name)}
+                      onChange={(e) => setCode(e.target.value)}
                       name="code"
                       className="form-control br-20"
                       placeholder="MTB-001"
@@ -452,15 +485,11 @@ function Products() {
                     </p>
 
                     <div className="wrap-select">
-                      {/* <input value={singleProduct.Category} className="form-control br-20" /> */}
-                      {/* {singleProduct.Category.map((item) => {
-                          return (
-                            <option key={item.id} value={item.categoryName}>
-                              Food
-                            </option>
-                          );
-                        })} */}
-                      {/* </select> */}
+                      <select onChange={(e) => setCategory(e.target.value)} className="form-control br-20">
+                        <option value={category}>Martabak</option>
+                        <option value={category}>Drinks</option>
+                        <option value={category}>Rice bowl</option>
+                      </select>
                       <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
                     </div>
                   </div>
@@ -470,7 +499,7 @@ function Products() {
                   <div className="d-flex align-items-center">
                     <p className="font-14 text-gray w-75 ws-nwrap">Cost</p>
                     <input
-                      onChange={(e) => setCost(e.target.name)}
+                      onChange={(e) => setCost(e.target.value)}
                       name="cost"
                       className="form-control br-20"
                       placeholder="Rp. 10,000"
@@ -479,7 +508,7 @@ function Products() {
                   <div className="d-flex align-items-center mt-2">
                     <p className="font-14 text-gray w-75 ws-nwrap">Selling price</p>
                     <input
-                      onChange={(e) => setPrice(e.target.name)}
+                      onChange={(e) => setPrice(e.target.value)}
                       name="price"
                       className="form-control br-20"
                       placeholder="Rp. 50,000"
@@ -547,7 +576,7 @@ function Products() {
               </div>
 
               <button
-                onClick={(e) => putData(e, id)}
+                onClick={postData}
                 className="btn bg-red text-white font-18 font-weight-bold br-20 position-absolute"
                 style={{ bottom: "30px", right: "30px" }}
               >
