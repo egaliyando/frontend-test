@@ -62,18 +62,18 @@ const Sidebar = () => {
           </svg>
 
           <div className="item-hovers">
-            <Link to="/product">
+            <Link to="/product" className="text-decoration-none" style={{ color: "white" }}>
               <span>Products</span>
             </Link>
             <div className="asd">
               <div className="item-hover-sub">
-                <Link to="/product/variants">
+                <Link to="/product/variants" className="text-decoration-none" style={{ color: "white" }}>
                   <span>Manage variants</span>
                 </Link>
               </div>
 
               <div className="item-hover-sub">
-                <Link to="/product/categories">
+                <Link to="/product/categories" className="text-decoration-none" style={{ color: "white" }}>
                   <span>Manage categories</span>
                 </Link>
               </div>

@@ -3,9 +3,14 @@ import Main from "ui/containers/Main";
 import Header from "ui/containers/Header";
 import { IcProduct, IcDevice, IcArrow, IcStatistic, IcInfo } from "assets/icons";
 import { Link } from "react-router-dom";
-import { Slide } from "react-reveal";
+import Slide from "react-reveal";
 
-function Outlets(props) {
+function DetailInfo(props) {
+  const getNavigationActive = (path) => {
+    return props.location.pathname === path
+      ? "d-flex align-items-center py-2 px-3 active text-decoration-none"
+      : "d-flex align-items-center py-2 px-3 text-decoration-none";
+  };
   const contentHeader = (
     <>
       <h1 className="font-24">Outlets</h1>
@@ -30,31 +35,20 @@ function Outlets(props) {
       </div>
     </>
   );
-  const getNavigationActive = (path) => {
-    return props.location.pathname === path
-      ? "d-flex align-items-center py-2 px-3 active text-decoration-none"
-      : "d-flex align-items-center py-2 px-3 text-decoration-none";
-  };
   const content = (
     <>
       <Header content={contentHeader} style="header sh-header h81" />
-
-      <Slide left>
-        <div className="content02">
+      <div className="d-flex">
+        <div className="content02-50">
           <div className="card01 p-4 bg-card01 br-20 mt-3 mx-4 active">
             <div className="w-100 d-flex justify-content-between">
               <div className="d-flex align-items-center">
-                <div className="wrap-img01 mr-4"></div>
                 <div className="d-flex flex-column">
                   <div className="d-flex align-items-center">
                     <p className="bg-purple py-1 px-2 mr-2 text-white fw-200 font-14 br-20">GS</p>
                     <h1 className="font-24">Gading Serpong</h1>
                   </div>
-                  <p className="font-14 text-gray mt-2">
-                    BSD Raya Utama, Ruko Mendrisio, Jl. Boulevard Raya Gading
-                    <br />
-                    Serpong No.33, Tangerang, Banten, 15332, Indonesia
-                  </p>
+                  <div className="my-4"></div>
                   <div className="d-flex flex-column mt-3">
                     <div className="d-flex align-items-center">
                       <img className="mr-3" src={require("assets/images/outlet/product.png")} alt="" />
@@ -147,10 +141,89 @@ function Outlets(props) {
             </div>
           </div>
         </div>
-      </Slide>
+        <div className="content02-40 pb-3 mx-5">
+          <div className="card01 mx-4 active">
+            <Slide right>
+              <div
+                className="bg-card01 radius-l-20 mt-3 p-3 br-20 position-fixed vh-100"
+                style={{ width: "40%", right: "24px" }}
+              >
+                <h1 className="font-24 mr-3">Outlet details & info</h1>
+
+                <hr />
+
+                <div className="d-flex justify-content-between">
+                  <div className="wrap-img03"></div>
+                  <div className="d-flex flex-column">
+                    <div className="d-flex align-items-center">
+                      <p className="text-gray font-14 w-50">Outlet name</p>
+                      <input type="text" value="Gading Serpong" className="form-control br-20" />
+                    </div>
+
+                    <div className="d-flex align-items-center mt-2">
+                      <p className="text-gray font-14 w-50">Address</p>
+
+                      <textarea
+                        class="form-control br-20"
+                        value="BSD Raya Utama, Ruko Mendrisio, Jl. Boulevard Raya Gading Serpong No.33, Tangerang, Banten, 15332, Indonesia"
+                        rows="5"
+                      ></textarea>
+                    </div>
+                    <div className="d-flex align-items-center">
+                      <p className="text-gray font-14 w-50">Label</p>
+                      <div className="d-flex align-items-center mr-2">
+                        <p className="text-white bg-purple py-1 px-3 mr-3 ws-nwrap br-20 mt-2 font-14">
+                          Gading Serpong
+                        </p>
+                        <img src={require("assets/images/outlet/edit.png")} alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr />
+                <h1 className="font-18 mt-2">Employees</h1>
+
+                <div className="d-flex flex-wrap">
+                  <p
+                    className="py-1 px-3 bg-white mr-2 br-20 br-dark-blue text-dark-blue font-weight-bold mt-2"
+                    style={{ width: "fit-content" }}
+                  >
+                    <img className="mr-2" src={require("assets/images/outlet/user.png")} alt="" />
+                    Employee 1
+                  </p>
+
+                  <p
+                    className="py-1 px-3 bg-white mr-2 br-20 br-dark-blue text-dark-blue font-weight-bold mt-2"
+                    style={{ width: "fit-content" }}
+                  >
+                    <img className="mr-2" src={require("assets/images/outlet/user.png")} alt="" />
+                    Employee 1
+                  </p>
+
+                  <p
+                    className="py-1 px-3 bg-white mr-2 br-20 br-dark-blue text-dark-blue font-weight-bold mt-2"
+                    style={{ width: "fit-content" }}
+                  >
+                    <img className="mr-2" src={require("assets/images/outlet/user.png")} alt="" />
+                    Employee 1
+                  </p>
+
+                  <p
+                    className="py-1 px-3 bg-white mr-2 br-20 br-dark-blue text-dark-blue font-weight-bold mt-2"
+                    style={{ width: "fit-content" }}
+                  >
+                    <img className="mr-2" src={require("assets/images/outlet/user.png")} alt="" />
+                    Employee 1
+                  </p>
+                </div>
+              </div>
+            </Slide>
+          </div>
+        </div>
+      </div>
     </>
   );
   return <Main content={content} />;
 }
 
-export default Outlets;
+export default DetailInfo;

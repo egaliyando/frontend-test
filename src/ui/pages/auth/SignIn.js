@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// import axios from "config";
-
 import { signIn } from "store/actions/auth";
 
 function SignIn(props) {
@@ -13,7 +11,7 @@ function SignIn(props) {
   };
   const handleSignIn = async () => {
     signIn(data);
-    props.history.push("/sign-out");
+    props.history.push("/");
   };
   return (
     <div>
