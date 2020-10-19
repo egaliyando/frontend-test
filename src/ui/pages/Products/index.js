@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "store/actions/product";
 import Header from "ui/containers/Header";
 import { Slide } from "react-reveal";
+import { LOADING, LOADING_FINISH } from "store/types";
 import axios from "config";
 
 function Products(props) {
@@ -11,6 +12,9 @@ function Products(props) {
   const dispatch = useDispatch();
   //state all product
   const product = useSelector((state) => state.product.product);
+  const loading = useSelector((state) => state.loading.loading);
+  const loadingData = useSelector((state) => state.loading.loading);
+  console.log(loading);
   console.log(product);
   //state single product
   const [id, setId] = useState();
@@ -36,7 +40,9 @@ function Products(props) {
 
   // get all action
   const getAllProduct = () => {
+    // dispatch({ type: LOADING });
     dispatch(fetchProduct());
+    // dispatch({ type: LOADING_FINISH });
   };
   //get single action
   const getSingle = async (id) => {
@@ -59,6 +65,7 @@ function Products(props) {
 
   //post action
   const postData = () => {
+    dispatch({ type: LOADING });
     let formData = new FormData();
     formData.append("name", name);
     formData.append("code", code);
@@ -66,8 +73,7 @@ function Products(props) {
     formData.append("price", price);
     formData.append("category", 1);
     formData.append("variants", JSON.stringify([1]));
-    formData.append("image", image);
-
+    formData.append("image", image.raw);
     axios
       .post("product", formData, {
         headers: {
@@ -78,11 +84,12 @@ function Products(props) {
       })
       .then(function (response) {
         window.location.reload(false);
-
         console.log(response);
+        dispatch({ type: LOADING_FINISH });
       })
       .catch(function (error) {
         console.log(error.response);
+        dispatch({ type: LOADING_FINISH });
       });
   };
   //put action
@@ -245,58 +252,67 @@ function Products(props) {
   const content = (
     <>
       <Header content={contentHeader} style="header" />
-      {product.map((data) => {
-        return (
-          <div
-            onClick={(e) => handleUpdateModal(e, data.productId)}
-            key={data.productId}
-            className="product bg-card01 mt-2 py-2 px-4 br-20 w-100 d-flex align-items-center justify-content-between"
-          >
-            <div className="bullet03"></div>
-            <div className="wrap-img">
-              <img src={data.productImage} className="w-100 h-100" alt="" />
-            </div>
-            <p className="font-14 fw-200">{data.productCode}</p>
-            <div className="hr-right"></div>
-            <p className="font-14 fw-200">{data.productName}</p>
-            <div className="hr-right"></div>
-            <div className="d-flex flex-column py-2">
-              {data.variants.map((variant) => {
-                return (
-                  <div key={variant.productVariant.variantId}>
-                    <div className="bg-white font-14 text-dark-blue py-1 px-2 br-20 br-dark-blue">
-                      {variant.productVariant.variantName}
-                      <img className="ml-2" src={require("assets/images/product/Close.png")} alt="" />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="hr-right"></div>
-            <div className="d-flex flex-wrap" style={{ width: "10%" }}>
-              <p className="bg-purple py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">GS</p>
-              <p className="bg-red py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">BS</p>
-              <p className="bg-blue py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">KB</p>
-              <p className="bg-verdant py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">SA</p>
-            </div>
-
-            <div className="hr-right"></div>
-
-            <div className="d-flex align-items-center">
-              <p className="font-14 fw-200 mr-4">{data.Category.categoryName}</p>
-              <img src={require("assets/images/product/arrow-bottom.png")} alt="" />
-            </div>
-
-            <div className="hr-right"></div>
-
-            <p className="font-14 fw-200 mr-4">{data.productPrice}</p>
-
-            <div className="hr-right"></div>
-
-            <p className="font-14 fw-200">{data.productCost}</p>
+      {loadingData === true ? (
+        <div className="position-absolute h-100 wrap-spiner">
+          <div className="spinner-border m-auto" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
-        );
-      })}
+        </div>
+      ) : (
+        product.map((data) => {
+          return (
+            <div
+              onClick={(e) => handleUpdateModal(e, data.productId)}
+              key={data.productId}
+              className="product bg-card01 mt-2 py-2 px-4 br-20 w-100 d-flex align-items-center justify-content-between"
+            >
+              <div className="bullet03"></div>
+              <div className="wrap-img">
+                <img src={data.productImage} className="w-100 h-100" alt="" />
+              </div>
+              <p className="font-14 fw-200">{data.productCode}</p>
+              <div className="hr-right"></div>
+              <p className="font-14 fw-200">{data.productName}</p>
+              <div className="hr-right"></div>
+              <div className="d-flex flex-column py-2">
+                {data.variants.map((variant) => {
+                  return (
+                    <div key={variant.productVariant.variantId}>
+                      <div className="bg-white font-14 text-dark-blue py-1 px-2 br-20 br-dark-blue">
+                        {variant.productVariant.variantName}
+                        <img className="ml-2" src={require("assets/images/product/Close.png")} alt="" />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="hr-right"></div>
+              <div className="d-flex flex-wrap" style={{ width: "10%" }}>
+                <p className="bg-purple py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">GS</p>
+                <p className="bg-red py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">BS</p>
+                <p className="bg-blue py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">KB</p>
+                <p className="bg-verdant py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">SA</p>
+              </div>
+
+              <div className="hr-right"></div>
+
+              <div className="d-flex align-items-center">
+                <p className="font-14 fw-200 mr-4">{data.Category.categoryName}</p>
+                <img src={require("assets/images/product/arrow-bottom.png")} alt="" />
+              </div>
+
+              <div className="hr-right"></div>
+
+              <p className="font-14 fw-200 mr-4">{data.productPrice}</p>
+
+              <div className="hr-right"></div>
+
+              <p className="font-14 fw-200">{data.productCost}</p>
+            </div>
+          );
+        })
+      )}
+
       {updateProduct ? (
         <>
           <div onClick={handleCloseUpdate} className="overlay-modal"></div>
@@ -453,7 +469,7 @@ function Products(props) {
       )}
       {createProduct ? (
         <>
-          <div onClick={handleCreateModal} className="overlay-modal"></div>
+          <div onClick={handleCreateModal} style={{ zIndex: 9999 }} className="overlay-modal"></div>
           <Slide right>
             <div className="modal-right p-4">
               <div className="w-100 d-flex justify-content-between">
@@ -582,14 +598,22 @@ function Products(props) {
                   Add another variant
                 </div>
               </div>
-
-              <button
-                onClick={postData}
-                className="btn bg-red text-white font-18 font-weight-bold br-20 position-absolute"
-                style={{ bottom: "30px", right: "30px" }}
-              >
-                Finish create
-              </button>
+              {loading === true ? (
+                <button
+                  className="btn bg-red text-white font-18 font-weight-bold br-20 position-absolute"
+                  style={{ bottom: "30px", right: "30px" }}
+                >
+                  .....
+                </button>
+              ) : (
+                <button
+                  onClick={postData}
+                  className="btn bg-red text-white font-18 font-weight-bold br-20 position-absolute"
+                  style={{ bottom: "30px", right: "30px" }}
+                >
+                  Finish create
+                </button>
+              )}
             </div>
           </Slide>
         </>

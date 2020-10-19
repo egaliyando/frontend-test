@@ -5,3 +5,5 @@ export const SET_CATEGORY = "SET_CATEGORY";
 export const SET_VARIANTS = "SET_VARIANTS";
 export const SET_SIGNIN = "SET_SIGNIN";
 export const SET_SIGNOUT = "SET_SIGNOUT";
+export const LOADING = "LOADING";
+export const LOADING_FINISH = "LOADING_FINISH";
