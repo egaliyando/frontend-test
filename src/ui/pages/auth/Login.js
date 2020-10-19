@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { signIn } from "store/actions/auth";
+import { signIn } from "store/actions/signIn";
 
 function Login(props) {
   const [data, setData] = useState({
