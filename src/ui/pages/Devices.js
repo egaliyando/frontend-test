@@ -97,7 +97,7 @@ function Devices() {
 
           <div className="d-flex align-items-center">
             <div className="wrap-select mr-3">
-              <select className="form-control mr-3 br-20">
+              <select className="form-control mr-3 br-20 br-dark-blue">
                 <option>Filter</option>
                 <option>Filter</option>
               </select>
@@ -105,7 +105,7 @@ function Devices() {
             </div>
 
             <div className="wrap-search mr-3">
-              <input type="text" className="form-control br-20" placeholder="Search" />
+              <input type="text" className="form-control br-20 br-dark-blue" placeholder="Search" />
               <img src={require("assets/images/outlet/icon-search.png")} alt="" />
             </div>
 

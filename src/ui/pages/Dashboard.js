@@ -11,7 +11,7 @@ const Dashboard = () => {
     <div className="w-100 bg-light-gray p-4 br-20">
       <div className="d-flex justify-content-between">
         <p className="font-18 fw-500">Today‘s total sales</p>
-        <img src="assets/img/side-right/content/Close.png" alt="" />
+        <img src={require("assets/images/Close.png")} alt="" />
       </div>
       <h1 className="font-24">Rp. 9,870,000</h1>
       <hr />
@@ -36,8 +36,10 @@ const Dashboard = () => {
         <p className="font-14 font-dark-blue fw-500">Rp. 40,000</p>
       </div>
       <div className="d-flex align-center mt-4 w-100 justify-content-end">
-        <p className="font-18 text-red">See all transactions</p>
-        <img src="assets/img/side-right/content/arrow-right.png" alt="" />
+        <p className="font-18 text-red position-relative" style={{ top: "1px" }}>
+          See all transactions
+        </p>
+        <img src={require("assets/images/arrow-right.png")} alt="" />
       </div>
     </div>
   );
@@ -54,7 +56,8 @@ const Dashboard = () => {
     <>
       <div className="content-sr">
         <div className="d-flex align-items-center">
-          <img className="mr-4" src="assets/img/side-right/content/brand.png" alt="" />
+          <img className="mr-4" src={require("assets/images/brand.png")} alt="" />
+
           <div className="d-flex flex-column">
             <h1 className="font-36">Hi Martabak Bang!</h1>
             <p className="font-18 fw-500">
@@ -114,7 +117,7 @@ const Dashboard = () => {
                   <h1 className="font-24 mr-3">Your current statistics</h1>
                   <div className="d-flex align-items-center">
                     <p className="font-18 text-red mr-2">Daily</p>
-                    <img src="assets/img/side-right/content/arrow-bottom.png" alt="" />
+                    <img src={require("assets/images/arrow-bottom.png")} alt="" />
                   </div>
                 </div>
                 <img src="assets/img/side-right/content/Close.png" alt="" />
@@ -161,12 +164,14 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="d-flex align-items-center">
-              <img className="mr-3" src="assets/img/side-right/content/arrow-left.png" alt="" />
-              <img src="assets/img/side-right/content/arrow-right.png" alt="" />
+              <img className="mr-3" src={require("assets/images/arrow-left.png")} alt="" />
+              <img className="mr-3" src={require("assets/images/arrow-right.png")} alt="" />
             </div>
             <div className="d-flex align-center">
-              <p className="font-18 text-red">See complete statistics</p>
-              <img src="assets/img/side-right/content/arrow-right.png" alt="" />
+              <p className="font-18 text-red position-relative" style={{ top: "3px" }}>
+                See complete statistics
+              </p>
+              <img src={require("assets/images/arrow-right.png")} alt="" />
             </div>
           </div>
         </div>
@@ -304,7 +309,7 @@ const Dashboard = () => {
             </div>
             <div className="d-flex align-items-center">
               <p className="font-18 text-red ws-nwrap">See all transactions</p>
-              <img src="assets/img/side-right/content/arrow-right.png" alt="" />
+              <img src={require("assets/images/arrow-right.png")} alt="" />
             </div>
           </div>
         </div>

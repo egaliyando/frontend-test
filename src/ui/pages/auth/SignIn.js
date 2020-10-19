@@ -14,10 +14,25 @@ function SignIn(props) {
     props.history.push("/");
   };
   return (
-    <div>
-      <input onChange={handleChange} name="username" type="text" placeholder="username" />
-      <input onChange={handleChange} name="password" type="text" placeholder="password" />
-      <button onClick={handleSignIn}>Sign In</button>
+    <div className="form-wrapper">
+      <h1>Sign In</h1>
+      <form>
+        <div className="form-item">
+          <label for="email"></label>
+          <input onChange={handleChange} name="username" type="text" placeholder="Username" />
+          {/* <input type="email" name="email" required="required" placeholder="Email Address"></input> */}
+        </div>
+        <div className="form-item">
+          <label for="password"></label>
+          <input onChange={handleChange} name="password" type="text" placeholder="Password" />
+          {/* <input type="password" name="password" required="required" placeholder="Password"></input> */}
+        </div>
+        <div className="button-panel">
+          <button className="button" onClick={handleSignIn}>
+            Sign In
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

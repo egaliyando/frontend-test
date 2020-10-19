@@ -16,7 +16,7 @@ function ManageDevice(props) {
       <h1 className="font-24">Outlets</h1>
       <div className="d-flex align-items-center">
         <div className="wrap-select mr-3">
-          <select className="form-control mr-3 br-20">
+          <select className="form-control mr-3 br-20 br-dark-blue">
             <option>Filter</option>
             <option>Filter</option>
           </select>
@@ -24,13 +24,13 @@ function ManageDevice(props) {
         </div>
 
         <div className="wrap-search mr-3">
-          <input type="text" className="form-control br-20" placeholder="Search" />
+          <input type="text" className="form-control br-20 br-dark-blue" placeholder="Search" />
           <img src={require("assets/images/outlet/icon-search.png")} alt="" />
         </div>
 
         <button className="sh-btn btn bg-red d-flex align-items-center text-white fw-200 br-20 px-3 sh-btn">
           <img className="mr-2" src={require("assets/images/outlet/icon-add.png")} alt="" />
-          <span className="font-17">add new outlet</span>
+          <span className="font-17 fw-500">add new outlet</span>
         </button>
       </div>
     </>

@@ -16,7 +16,7 @@ function Statistic(props) {
       <h1 className="font-24">Outlets</h1>
       <div className="d-flex align-items-center">
         <div className="wrap-select mr-3">
-          <select className="form-control mr-3 br-20">
+          <select className="form-control mr-3 br-20 br-dark-blue">
             <option>Filter</option>
             <option>Filter</option>
           </select>
@@ -24,13 +24,13 @@ function Statistic(props) {
         </div>
 
         <div className="wrap-search mr-3">
-          <input type="text" className="form-control br-20" placeholder="Search" />
+          <input type="text" className="form-control br-20 br-dark-blue" placeholder="Search" />
           <img src={require("assets/images/outlet/icon-search.png")} alt="" />
         </div>
 
         <button className="sh-btn btn bg-red d-flex align-items-center text-white fw-200 br-20 px-3 sh-btn">
           <img className="mr-2" src={require("assets/images/outlet/icon-add.png")} alt="" />
-          <span className="font-17">add new outlet</span>
+          <span className="font-17 fw-500">add new outlet</span>
         </button>
       </div>
     </>
@@ -215,8 +215,8 @@ function Statistic(props) {
                     <img src="assets/img/side-right/content/arrow-right.png" alt="" />
                   </div>
                   <div className="d-flex align-items-center">
-                    <p className="font-18 text-red">See complete statistics</p>
-                    <img className="ml-2" src={require("assets/images/arrow-right.png")} alt="" />
+                    <img className="mr-3" src={require("assets/images/arrow-left.png")} alt="" />
+                    <img className="mr-3" src={require("assets/images/arrow-right.png")} alt="" />
                   </div>
                 </div>
               </div>{" "}

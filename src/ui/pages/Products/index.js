@@ -19,7 +19,15 @@ function Products(props) {
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState(1);
   const [variants, setVariants] = useState([1]);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState({ preview: "", raw: "" });
+  const handleImage = (e) => {
+    if (e.target.files.length) {
+      setImage({
+        preview: URL.createObjectURL(e.target.files[0]),
+        raw: e.target.files[0],
+      });
+    }
+  };
   //modal state
   const [updateProduct, setUpdateProduct] = useState(false);
   const [createProduct, setCreateProduct] = useState(false);
@@ -85,7 +93,7 @@ function Products(props) {
     formData.append("price", price);
     formData.append("category", 1);
     formData.append("variants", JSON.stringify([1]));
-    formData.append("image", image);
+    formData.append("image", image.raw);
     try {
       const putProduct = await axios.put(`product/${id}`, formData, {
         headers: {
@@ -135,7 +143,7 @@ function Products(props) {
     <>
       <div className="d-flex flex-column w-100 pt-4 pb-2 px-4 bg-white">
         <div className="w-100 d-flex justify-content-between">
-          <div className="wrap-select mr-3" style={{ width: "13%" }}>
+          <div className="wrap-select mr-3" style={{ width: "15%" }}>
             <select className="form-control mr-3 br-20 font-24 border-0">
               <option>Products</option>
               <option>Filter</option>
@@ -153,7 +161,7 @@ function Products(props) {
               Delete
             </div>
             <div className="wrap-select mr-3">
-              <select className="form-control mr-3 br-20">
+              <select className="form-control mr-3 br-20 br-dark-blue">
                 <option>Filter</option>
                 <option>Filter</option>
               </select>
@@ -161,7 +169,7 @@ function Products(props) {
             </div>
 
             <div className="wrap-search mr-3">
-              <input type="text" className="form-control br-20" placeholder="Search" />
+              <input type="text" className="form-control br-20 br-dark-blue" placeholder="Search" />
               <img src={require("assets/images/outlet/icon-search.png")} alt="" />
             </div>
 
@@ -170,7 +178,7 @@ function Products(props) {
               className="btn bg-red d-flex align-items-center text-white fw-200 br-20 px-3 sh-btn"
             >
               <img className="mr-2" src={require("assets/images/outlet/icon-add.png")} alt="" />
-              <span className="font-17">add new product</span>
+              <span className="font-17 fw-500">add new product</span>
             </div>
           </div>
         </div>
@@ -265,7 +273,10 @@ function Products(props) {
             </div>
             <div className="hr-right"></div>
             <div className="d-flex flex-wrap" style={{ width: "10%" }}>
-              <p className="bg-purple py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">Outlets 01</p>
+              <p className="bg-purple py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">GS</p>
+              <p className="bg-red py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">BS</p>
+              <p className="bg-blue py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">KB</p>
+              <p className="bg-verdant py-1 px-2 mr-2 text-white fw-200 font-14 br-20 mt-1">SA</p>
             </div>
 
             <div className="hr-right"></div>
@@ -308,10 +319,14 @@ function Products(props) {
               </div>
               <hr className="my-3 mx-0" />
               <div className="d-flex justify-content-between align-items-start">
-                <div className="wrap-img">
-                  <img src={image} className="w-100 h-100" alt="" />
-                  <input type="file" onChange={(e) => setImage(e.target.files[0])} />
-                </div>
+                <label className="wrap-img" htmlFor="upload-button">
+                  {image.preview ? (
+                    <img src={image.preview} className="w-100 h-100" alt="" />
+                  ) : (
+                    <img src={image} className="w-100 h-100" alt="" />
+                  )}
+                  <input id="upload-button" style={{ display: "none" }} type="file" onChange={handleImage} />
+                </label>
                 <div className="d-flex flex-column">
                   <div className="d-flex align-items-center">
                     <p className="font-14 text-gray w-75 ws-nwrap">Product name</p>
@@ -337,15 +352,6 @@ function Products(props) {
                     </p>
 
                     <div className="wrap-select">
-                      {/* <input value={singleProduct.Category} className="form-control br-20" /> */}
-                      {/* {singleProduct.Category.map((item) => {
-                          return (
-                            <option key={item.id} value={item.categoryName}>
-                              Food
-                            </option>
-                          );
-                        })} */}
-                      {/* </select> */}
                       <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
                     </div>
                   </div>
@@ -457,9 +463,10 @@ function Products(props) {
               </div>
               <hr className="my-3 mx-0" />
               <div className="d-flex justify-content-between align-items-start">
-                <div className="wrap-img">
-                  <input onChange={(e) => setImage(e.target.files[0])} name="file" type="file" />
-                </div>
+                <label htmlFor="create-button" className="wrap-img">
+                  {image.preview ? <img src={image.preview} className="w-100 h-100" alt="" /> : ""}
+                </label>
+                <input id="create-button" style={{ display: "none" }} type="file" onChange={handleImage} />
                 <div className="d-flex flex-column">
                   <div className="d-flex align-items-center">
                     <p className="font-14 text-gray w-75 ws-nwrap">Product name</p>

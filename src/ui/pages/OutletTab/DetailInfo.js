@@ -16,7 +16,7 @@ function DetailInfo(props) {
       <h1 className="font-24">Outlets</h1>
       <div className="d-flex align-items-center">
         <div className="wrap-select mr-3">
-          <select className="form-control mr-3 br-20">
+          <select className="form-control mr-3 br-20 br-dark-blue">
             <option>Filter</option>
             <option>Filter</option>
           </select>
@@ -24,13 +24,13 @@ function DetailInfo(props) {
         </div>
 
         <div className="wrap-search mr-3">
-          <input type="text" className="form-control br-20" placeholder="Search" />
+          <input type="text" className="form-control br-20 br-dark-blue" placeholder="Search" />
           <img src={require("assets/images/outlet/icon-search.png")} alt="" />
         </div>
 
         <button className="sh-btn btn bg-red d-flex align-items-center text-white fw-200 br-20 px-3 sh-btn">
           <img className="mr-2" src={require("assets/images/outlet/icon-add.png")} alt="" />
-          <span className="font-17">add new outlet</span>
+          <span className="font-17 fw-500">add new outlet</span>
         </button>
       </div>
     </>
@@ -148,13 +148,15 @@ function DetailInfo(props) {
                 className="bg-card01 radius-l-20 mt-3 p-3 br-20 position-fixed vh-100"
                 style={{ width: "40%", right: "24px" }}
               >
-                <h1 className="font-24 mr-3">Outlet details & info</h1>
-
+                <div className="d-flex justify-content-between align-items-center">
+                  <h1 className="font-24 mr-3">Outlet details & info</h1>
+                  <img src={require("assets/images/Close.png")} alt="" />
+                </div>
                 <hr />
 
                 <div className="d-flex justify-content-between">
-                  <div className="wrap-img03"></div>
-                  <div className="d-flex flex-column">
+                  <div className="wrap-img03 mr-4"></div>
+                  <div className="d-flex flex-column w-100">
                     <div className="d-flex align-items-center">
                       <p className="text-gray font-14 w-50">Outlet name</p>
                       <input type="text" value="Gading Serpong" className="form-control br-20" />
@@ -170,7 +172,7 @@ function DetailInfo(props) {
                       ></textarea>
                     </div>
                     <div className="d-flex align-items-center">
-                      <p className="text-gray font-14 w-50">Label</p>
+                      <p className="text-gray font-14 w-25 mr-4">Label</p>
                       <div className="d-flex align-items-center mr-2">
                         <p className="text-white bg-purple py-1 px-3 mr-3 ws-nwrap br-20 mt-2 font-14">
                           Gading Serpong
@@ -183,7 +185,7 @@ function DetailInfo(props) {
                 <hr />
                 <h1 className="font-18 mt-2">Employees</h1>
 
-                <div className="d-flex flex-wrap">
+                <div className="d-flex flex-wrap mt-2">
                   <p
                     className="py-1 px-3 bg-white mr-2 br-20 br-dark-blue text-dark-blue font-weight-bold mt-2"
                     style={{ width: "fit-content" }}
