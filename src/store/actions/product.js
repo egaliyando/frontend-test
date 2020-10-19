@@ -13,7 +13,10 @@ export const fetchProduct = () => {
         product: product.data.products,
       });
     } catch (error) {
-      console.log(error.response);
+      console.log(error.response.data.message);
+      if (error.response.data.message === "token expired") {
+        window.location = "/sign-in";
+      }
     }
   };
 };

@@ -14,6 +14,9 @@ export const fetchCategory = () => {
       });
     } catch (error) {
       console.log(error.response);
+      if (error.response.data.message === "token expired") {
+        window.location = "/sign-in";
+      }
     }
   };
 };

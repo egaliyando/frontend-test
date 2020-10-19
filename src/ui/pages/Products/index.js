@@ -11,6 +11,7 @@ function Products(props) {
   const dispatch = useDispatch();
   //state all product
   const product = useSelector((state) => state.product.product);
+  console.log(product);
   //state single product
   const [id, setId] = useState();
   const [name, setName] = useState("");

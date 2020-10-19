@@ -285,8 +285,31 @@ p {
   white-space: nowrap;
 }
 
+.side-left .wrap-img .item-hover-sub2 {
+  position: absolute;
+  color: white;
+  background-color: #110f48;
+  border: 1px solid black;
+  height: 100%;
+  width: fit-content;
+  border-radius: 18px;
+  top: 0;
+  left: 0;
+  padding: 10px 20px;
+  display: block;
+  top: 56px;
+  left: 49px;
+  white-space: nowrap;
+}
+
+
+
 .side-left .wrap-img .item-hover-sub:last-child {
   top: 112px;
+}
+
+.side-left .wrap-img .item-hover-sub2:last-child {
+  top: 51px;
 }
 
 .side-left .wrap-img:hover .item-hover-sub {
@@ -297,6 +320,11 @@ p {
   border: 1px solid transparent;
   width: 169px;
   height: 193px;
+}
+.asd2 {
+  border: 1px solid transparent;
+  width: 169px;
+  height: 103px;
 }
 
 .side-right {
@@ -652,7 +680,11 @@ p {
   width: 131px;
   height: 131px;
   border-radius: 20px;
-  background-color: #110f48;
+  background-color: #DDDDE6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .modal-right .wrap-select {
@@ -755,67 +787,53 @@ p {
   box-sizing: border-box;
 }
 
-/* body */
-body {
-  /* background: #e9e9e9; */
-  /* color: #5e5e5e; */
-  /* font: 400 87.5%/1.5em "Open Sans", sans-serif; */
-}
-
-/* Form Layout */
-.form-wrapper {
-  background: #fafafa;
-  margin: 3em auto;
-  padding: 0 1em;
-  max-width: 370px;
-}
-
-form {
-  padding: 0 1.5em;
-}
-
-.form-item {
-  margin-bottom: 0.75em;
+.content-login{
   width: 100%;
+  height: 100vh;
+  background: transparent linear-gradient(180deg, #4FDFBD 0%, #36C3D8 100%) 0% 0% no-repeat padding-box;
+  position: relative;
+  overflow: hidden;
 }
 
-.form-item input {
-  background: #fafafa;
-  border: none;
-  border-bottom: 2px solid #e9e9e9;
-  color: #666;
-  font-family: "Open Sans", sans-serif;
-  font-size: 1em;
-  height: 50px;
-  transition: border-color 0.3s;
-  width: 100%;
+.content-login .bg-1{
+  position: absolute;
+  left: 0;
+  width: 50%;
 }
 
-.form-item input:focus {
-  border-bottom: 2px solid #c0c0c0;
-  outline: none;
+.content-login .bg-2{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 4%;
 }
 
-.button-panel {
-  margin: 2em 0 0;
-  width: 100%;
+.form-login{
+  height: 75%;
+  width: 35%;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 37px;
 }
 
-.button-panel .button {
-  background: #f16272;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  height: 50px;
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.2em;
-  letter-spacing: 0.05em;
-  text-align: center;
-  text-transform: uppercase;
-  transition: background 0.3s ease-in-out;
-  width: 100%;
+.form-login h1{
+  font-size: 20px;
 }
 
-.button:hover {
-  background: #ee3e52;
+.form-login input::placeholder{
+  color: #DEDEDE;
+}
+
+.form-login input:focus{
+  box-shadow: 0px 3px 6px #0000001F;
+}
+
+.form-login .btn{
+  background: transparent linear-gradient(180deg, #4AD9C2 0%, #36C3D7 100%) 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  
 }

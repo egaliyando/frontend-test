@@ -14,25 +14,33 @@ function Login(props) {
     props.history.push("/");
   };
   return (
-    <div className="form-wrapper">
-      <h1>Sign In</h1>
-      <form>
-        <div className="form-item">
-          <label for="email"></label>
-          <input onChange={handleChange} name="username" type="text" placeholder="Username" />
-          {/* <input type="email" name="email" required="required" placeholder="Email Address"></input> */}
+    <div className="content-login">
+      <img className="bg-1" src={require("assets/images/14.png")} alt="img" />
+      <img className="bg-2" src={require("assets/images/12.png")} alt="img" />
+      <div className="form-login">
+        <div className="d-flex align-items-center justify-content-between">
+          {/* <img src={require("assets/images/14.png")} alt="img" /> */}
+          <div className="d-flex align-items-center">
+            {/* <img className="mr-1" src={require("assets/images/12.png")} alt="img" /> */}
+            <h1 className="mb-0" style={{ color: "#42D0CA" }}>
+              Welcome admin!
+            </h1>
+          </div>
         </div>
-        <div className="form-item">
-          <label for="password"></label>
-          <input onChange={handleChange} name="password" type="text" placeholder="Password" />
-          {/* <input type="password" name="password" required="required" placeholder="Password"></input> */}
-        </div>
-        <div className="button-panel">
-          <button className="button" onClick={handleSignIn}>
-            Sign In
-          </button>
-        </div>
-      </form>
+        <hr className="mt-4 mb-5" />
+        <input onChange={handleChange} name="username" className="form-control" type="text" placeholder="Username" />
+        <input
+          onChange={handleChange}
+          name="password"
+          className="form-control mt-4"
+          type="text"
+          placeholder="Password"
+        />
+
+        <button className="btn text-white mt-5 w-100 py-3" onClick={handleSignIn}>
+          Sign In
+        </button>
+      </div>
     </div>
   );
 }
