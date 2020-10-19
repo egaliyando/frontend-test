@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { signIn } from "store/actions/auth";
 
-function SignIn(props) {
+function Login(props) {
   const [data, setData] = useState({
     username: "",
     password: "",
@@ -37,4 +37,4 @@ function SignIn(props) {
   );
 }
 
-export default SignIn;
+export default Login;

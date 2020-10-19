@@ -2,8 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 //pages
 import Outlets from "ui/pages/Outlets";
-import SignIn from "ui/pages/Auth/SignIn";
-import SignOut from "ui/pages/Auth/SignOut";
+import Login from "ui/pages/Auth/Login";
 import Dashboard from "ui/pages/Dashboard";
 import Devices from "ui/pages/Devices";
 import Product from "ui/pages/Products";
@@ -30,8 +29,8 @@ function App() {
         <Route exact path="/devices" component={Devices} />
         <Route path="/devices/preview" component={DevicesPreview} />
         <Route exact path="/outlets" component={Outlets} />
-        <Route exact path="/sign-in" component={SignIn} />
-        <Route exact path="/sign-out" component={SignOut} />
+        <Route exact path="/Login" component={Login} />
+        {/* <Route exact path="/sign-out" component={SignOut} /> */}
       </Switch>
     </Router>
   );
