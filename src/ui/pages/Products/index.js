@@ -432,7 +432,7 @@ function Products(props) {
               </div>
               <hr className="my-3 mx-0" />
 
-              <div className="d-flex align-items-center py-2">
+              {/* <div className="d-flex align-items-center py-2">
                 <p className="font-14 text-gray ws-nwrap text-red mr-3">
                   <u>Outline</u>
                 </p>
@@ -443,9 +443,9 @@ function Products(props) {
                 <div className="bg-green font-14 text-white py-2 px-4 br-20 mr-3">Waroeng Batavia</div>
 
                 <div className="bg-blue font-14 text-white py-2 px-4 br-20 mr-3">Shah Alam</div>
-              </div>
+              </div> */}
 
-              <hr className="my-3 mx-0" />
+              {/* <hr className="my-3 mx-0" />
 
               <div className="d-flex align-items-start justify-content-between">
                 <p className="font-14 text-gray ws-nwrap text-red mr-3">
@@ -487,7 +487,7 @@ function Products(props) {
                   <img className="mr-2" src={require("assets/images/product/Add.png")} alt="" />
                   Add another variant
                 </div>
-              </div>
+              </div> */}
 
               <button
                 onClick={(e) => putData(e, id)}
@@ -581,7 +581,7 @@ function Products(props) {
               </div>
               <hr className="my-3 mx-0" />
 
-              <div className="d-flex align-items-center py-2">
+              {/* <div className="d-flex align-items-center py-2">
                 <p className="font-14 text-gray ws-nwrap text-red mr-3">
                   <u>Outline</u>
                 </p>
@@ -636,7 +636,7 @@ function Products(props) {
                   <img className="mr-2" src={require("assets/images/product/Add.png")} alt="" />
                   Add another variant
                 </div>
-              </div>
+              </div> */}
               {loading === true ? (
                 <button
                   className="btn bg-red text-white font-18 font-weight-bold br-20 position-absolute"
