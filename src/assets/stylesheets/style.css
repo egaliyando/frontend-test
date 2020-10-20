@@ -844,3 +844,46 @@ p {
   background: transparent linear-gradient(180deg, #4ad9c2 0%, #36c3d7 100%) 0% 0% no-repeat padding-box;
   border-radius: 5px;
 }
+
+.drp-down2 {
+  /* height: fit-content; */
+  padding: 0;
+  margin: 0;
+}
+
+.drp-down2.show {
+  top: -31px !important;
+  left: -10px !important;
+}
+
+.drp-down2 .dropdown-item {
+  background-color: #dddde6;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-toggle:focus,
+.dropdown-toggle:hover {
+  color: inherit;
+  border: none;
+  outline: none;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active,
+.btn-secondary:not(:disabled):not(.disabled):active,
+.show > .btn-secondary.dropdown-toggle {
+  color: inherit;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active:focus,
+.btn-secondary:not(:disabled):not(.disabled):active:focus,
+.show > .btn-secondary.dropdown-toggle:focus {
+  box-shadow: none;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}

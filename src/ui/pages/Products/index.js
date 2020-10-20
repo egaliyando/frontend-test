@@ -6,12 +6,16 @@ import Header from "ui/containers/Header";
 import { Slide } from "react-reveal";
 import { LOADING, LOADING_FINISH } from "store/types";
 import axios from "config";
+import { fetchCategory } from "store/actions/category";
 
 function Products(props) {
   //dispath initial
   const dispatch = useDispatch();
   //state all product
   const product = useSelector((state) => state.product.product);
+  const categories = useSelector((state) => state.category.category);
+
+  //state loading
   const loading = useSelector((state) => state.loading.loading);
   const loadingData = useSelector((state) => state.loading.loading);
   console.log(loading);
@@ -36,13 +40,14 @@ function Products(props) {
   //modal state
   const [updateProduct, setUpdateProduct] = useState(false);
   const [createProduct, setCreateProduct] = useState(false);
-  // console.log("PRODUCT", product);
 
+  //get category
+  const getCategory = () => {
+    dispatch(fetchCategory());
+  };
   // get all action
   const getAllProduct = () => {
-    // dispatch({ type: LOADING });
     dispatch(fetchProduct());
-    // dispatch({ type: LOADING_FINISH });
   };
   //get single action
   const getSingle = async (id) => {
@@ -71,8 +76,8 @@ function Products(props) {
     formData.append("code", code);
     formData.append("cost", cost);
     formData.append("price", price);
-    formData.append("category", 1);
-    formData.append("variants", JSON.stringify([1]));
+    formData.append("category", category);
+    formData.append("variants", JSON.stringify([3]));
     formData.append("image", image.raw);
     axios
       .post("product", formData, {
@@ -99,8 +104,8 @@ function Products(props) {
     formData.append("code", code);
     formData.append("cost", cost);
     formData.append("price", price);
-    formData.append("category", 1);
-    formData.append("variants", JSON.stringify([1]));
+    formData.append("category", category);
+    formData.append("variants", JSON.stringify([3]));
     formData.append("image", image.raw);
     try {
       const putProduct = await axios.put(`product/${id}`, formData, {
@@ -369,6 +374,19 @@ function Products(props) {
                     </p>
 
                     <div className="wrap-select">
+                      <select
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="form-control br-20"
+                      >
+                        {categories.map((item) => {
+                          return (
+                            <option value={item.id} key={item.id}>
+                              {item.categoryName}
+                            </option>
+                          );
+                        })}
+                      </select>
                       <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
                     </div>
                   </div>
@@ -510,9 +528,13 @@ function Products(props) {
 
                     <div className="wrap-select">
                       <select onChange={(e) => setCategory(e.target.value)} className="form-control br-20">
-                        <option value={category}>Martabak</option>
-                        <option value={category}>Drinks</option>
-                        <option value={category}>Rice bowl</option>
+                        {categories.map((item) => {
+                          return (
+                            <option key={item.id} value={item.id}>
+                              {item.categoryName}
+                            </option>
+                          );
+                        })}
                       </select>
                       <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
                     </div>
@@ -625,6 +647,7 @@ function Products(props) {
 
   useEffect(() => {
     getAllProduct();
+    getCategory();
   }, []);
 
   return <Main content={content} />;

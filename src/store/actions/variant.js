@@ -1,11 +1,15 @@
 import axios from "config";
-import { SET_VARIANTS } from "store/types";
+import { SET_VARIANTS, LOADING, LOADING_FINISH } from "store/types";
+
+export const loading = { type: LOADING };
+export const loadingFinish = { type: LOADING_FINISH };
 
 export const fetchVariant = () => {
   return async (dispatch) => {
     const params = {
       headers: { "x-access-token": localStorage.getItem("token") },
     };
+    dispatch(loading);
     try {
       const variant = await axios.get(`variant`, params);
       console.log(variant);
@@ -13,6 +17,7 @@ export const fetchVariant = () => {
         type: SET_VARIANTS,
         variant: variant.data.variants,
       });
+      dispatch(loadingFinish);
     } catch (error) {
       console.log(error.response);
 
