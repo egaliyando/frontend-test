@@ -580,69 +580,14 @@ function Products(props) {
                 </div>
               </div>
               <hr className="my-3 mx-0" />
-
-              {/* <div className="d-flex align-items-center py-2">
-                <p className="font-14 text-gray ws-nwrap text-red mr-3">
-                  <u>Outline</u>
-                </p>
-                <div className="bg-purple font-14 text-white py-2 px-4 br-20 mr-3">Gading Serpong</div>
-
-                <div className="bg-pink font-14 text-white py-2 px-4 br-20 mr-3">Bandar Sunway</div>
-                <div className="bg-verdant font-14 text-white py-2 px-4 br-20 mr-3">Kota Bahru</div>
-                <div className="bg-green font-14 text-white py-2 px-4 br-20 mr-3">Waroeng Batavia</div>
-
-                <div className="bg-blue font-14 text-white py-2 px-4 br-20 mr-3">Shah Alam</div>
-              </div>
-
-              <hr className="my-3 mx-0" />
-
-              <div className="d-flex align-items-start justify-content-between">
-                <p className="font-14 text-gray ws-nwrap text-red mr-3">
-                  <u>Variants</u>
-                </p>
-                <div className="d-flex flex-column w-25">
-                  <div className="bg-white br-dark-blue font-14 text-dark-blue py-2 px-4 br-20 mr-3 w-100 d-flex  align-items-center  justify-content-center">
-                    Size
-                    <img className="ml-2" src={require("assets/images/product/Close.png")} alt="" />
-                  </div>
-                  <div className="w-100 d-flex justify-content-between mt-2 px-2">
-                    <p className="font-12 text-gray">Small</p>
-                    <p className="font-12 text-gray">+ Rp. 0</p>
-                  </div>
-                  <div className="w-100 d-flex justify-content-between mt-2 px-2">
-                    <p className="font-12 text-gray">Medium</p>
-                    <p className="font-12 text-gray">+ Rp. 5,000</p>
-                  </div>
-                  <div className="w-100 d-flex justify-content-between mt-2 px-2">
-                    <p className="font-12 text-gray">Large</p>
-                    <p className="font-12 text-gray">+ Rp. 10,000</p>
-                  </div>
-                </div>
-                <div className="d-flex flex-column w-25">
-                  <div className="bg-white br-dark-blue font-14 text-dark-blue py-2 px-4 br-20 mr-3 w-100 d-flex  align-items-center  justify-content-center">
-                    Sweetness
-                    <img className="ml-2" src={require("assets/images/product/Close.png")} alt="" />
-                  </div>
-                  <div className="w-100 d-flex justify-content-between mt-2 px-2">
-                    <p className="font-12 text-gray">Normal</p>
-                    <p className="font-12 text-gray">+ Rp. 0</p>
-                  </div>
-                  <div className="w-100 d-flex justify-content-between mt-2 px-2">
-                    <p className="font-12 text-gray">Extra sweet</p>
-                    <p className="font-12 text-gray">+ Rp. 0</p>
-                  </div>
-                </div>
-                <div className="bg-white br-dashed-dark-blue font-14 text-dark-blue py-2 px-4 br-20 mr-3 w-25 d-flex align-items-center   justify-content-center">
-                  <img className="mr-2" src={require("assets/images/product/Add.png")} alt="" />
-                  Add another variant
-                </div>
-              </div> */}
               {loading === true ? (
                 <button
                   className="btn bg-red text-white font-18 font-weight-bold br-20 position-absolute"
                   style={{ bottom: "30px", right: "30px" }}
                 >
-                  .....
+                  <div className="spinner-border text-light" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
                 </button>
               ) : (
                 <button
