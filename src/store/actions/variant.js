@@ -19,6 +19,7 @@ export const fetchVariant = () => {
       });
       dispatch(loadingFinish);
     } catch (error) {
+      console.log("error", error);
       console.log(error.response);
 
       if (error.response.data.message === "token expired") {

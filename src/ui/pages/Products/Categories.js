@@ -148,7 +148,7 @@ function Categories() {
             return (
               <div key={data.id} className="br-20 bg-card01 px-3 w-100 d-flex align-items-center mb-2">
                 <div className="bullet03">
-                  <input value={select} type="checkbox" onClick={() => handleSelect(data.id)} />
+                  <input value={select} type="radio" onClick={() => handleSelect(data.id)} />
                 </div>
                 <div className="hr-right02 mx-2"></div>
                 <p className="font-14 fw-200 d-flex ml-2 mb-5 justify-content-start" style={{ width: "23%" }}>

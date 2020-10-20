@@ -3,9 +3,67 @@ import Main from "ui/containers/Main";
 import Header from "ui/containers/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVariant } from "store/actions/variant";
+import { Slide } from "react-reveal";
+import axios from "config";
 
 function Variants() {
   const dispatch = useDispatch();
+  //state modal create
+  const [createVariant, setcreateVariant] = useState(false);
+  const [updateVariant, setupdateVariant] = useState(false);
+  const handleUpdateModal = (id) => {
+    getVariantById(id);
+    setupdateVariant(!updateVariant);
+  };
+  const handleCreateModal = () => {
+    setcreateVariant(!createVariant);
+  };
+  //state name & type
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  console.log("name", name);
+  console.log("type", type);
+  const [counter, setcounter] = useState(1);
+  //state variant option
+  const [varOption, setvarOption] = useState([{ index: counter, name: "", type: "", price: "" }]);
+  console.log("varOption", varOption);
+  //handle change varian option
+  const handleChange = (e) => {
+    const _temp = [...varOption];
+    _temp[e.target.dataset.id][e.target.name] = e.target.value;
+    setvarOption(_temp);
+  };
+  //add variant opt push..
+
+  const addVariantOpt = () => {
+    let values = [...varOption];
+    values.push({
+      index: counter + 1,
+      name: "",
+      type: "",
+      price: "",
+    });
+    setcounter(counter + 1);
+    setvarOption(values);
+  };
+
+  const getVariantById = async (id) => {
+    try {
+      const variantById = await axios.get(`variant/${id}`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      });
+      console.log("variantById", variantById);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+  // const handlePostVarian = async () => {
+  //   try {
+  //   } catch (error) {}
+  // };
+
   //state loading
   const loading = useSelector((state) => state.loading.loading);
   const variant = useSelector((state) => state.variant.variant);
@@ -56,7 +114,10 @@ function Variants() {
               <img src={require("assets/images/outlet/icon-search.png")} alt="" />
             </div>
 
-            <button className="btn bg-red d-flex align-items-center text-white fw-200 br-20 px-3 sh-btn">
+            <button
+              onClick={handleCreateModal}
+              className="btn bg-red d-flex align-items-center text-white fw-200 br-20 px-3 sh-btn"
+            >
               <img className="mr-2" src={require("assets/images/outlet/icon-add.png")} alt="" />
               <span className="font-17 fw-500">add new variant</span>
             </button>
@@ -144,8 +205,18 @@ function Variants() {
                   <div className="hr-right my-2"></div>
 
                   <div className="d-flex align-items-center px-3">
-                    <button className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20">Add new option</button>
-                    <button className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20">Insert product</button>
+                    <button
+                      onClick={() => handleUpdateModal(data.variantId)}
+                      className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20"
+                    >
+                      Add new option
+                    </button>
+                    <button
+                      onClick={() => handleUpdateModal(data.variantId)}
+                      className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20"
+                    >
+                      Insert product
+                    </button>
                   </div>
                 </div>
 
@@ -275,200 +346,330 @@ function Variants() {
           </div>
         )}
       </div>
-      {/* button hidden  */}
-      <div className="overlay-modal" style={{ display: "none" }}></div>
-      <div className="modal-right p-4" style={{ display: "none" }}>
-        <div className="w-100 d-flex justify-content-between">
-          <h1 className="font-weight-bold font-24">Variant information</h1>
-          <div className="d-flex align-items-center">
-            <div className="d-flex align-items-center mr-5">
-              <p className="text-gray font-18 mr-3">Duplicate product</p>
-              <img src={require("assets/images/product/copy (1).png")} alt="" />
-            </div>
-            <div className="d-flex align-items-center mr-5">
-              <p className="text-gray font-18 mr-3">Delete product</p>
-              <img src={require("assets/images/product/trash (1).png")} alt="" />
-            </div>
-            <img src={require("assets/images/product/Close (1).png")} alt="" />
-          </div>
-        </div>
-        <hr className="my-3 mx-0" />
+      {createVariant ? (
+        <>
+          <div onClick={handleCreateModal} className="overlay-modal" style={{ display: "block" }}></div>
+          <Slide right>
+            <div className="modal-right p-4">
+              <div className="w-100 d-flex justify-content-between">
+                <h1 className="font-weight-bold font-24">Variant information</h1>
+                <div className="d-flex align-items-center">
+                  <img onClick={handleCreateModal} src={require("assets/images/product/Close (1).png")} alt="" />
+                </div>
+              </div>
+              <hr className="my-3 mx-0" />
 
-        <div className="d-flex align-items-center my-1">
-          <p className="font-14 mr-3">Varian name</p>
-          <input type="text" className="form-control w-25 br-20" placeholder="Size" />
-        </div>
+              <div className="d-flex align-items-center my-1">
+                <p className="font-14 mr-3">Varian name</p>
+                <input
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
+                  name="name"
+                  type="text"
+                  className="form-control w-25 br-20"
+                  placeholder="Size"
+                />
+              </div>
 
-        <hr className="my-3 mx-0" />
+              <hr className="my-3 mx-0" />
 
-        <div className="d-flex justify-content-between align-items-center mt-3">
-          <div className="d-flex align-items-center w-100">
-            <p className="font-14 mr-3 ws-nwrap">Varian name</p>
+              <div className="d-flex justify-content-between align-items-center mt-3">
+                <div className="d-flex align-items-center w-100">
+                  <p className="font-14 mr-3 ws-nwrap">Varian type</p>
 
-            <div className="wrap-select w-25 mr-3">
-              <select className="form-control br-20 font-14 bg-transparent" style={{ appearance: "none" }}>
-                <option>Assigned to 8 products</option>
-                <option>Filter</option>
-              </select>
-              <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
-            </div>
-          </div>
+                  <div className="wrap-select w-25 mr-3">
+                    <select
+                      onChange={(e) => setType(e.target.value)}
+                      value={type}
+                      className="form-control br-20 font-14 bg-transparent"
+                      style={{ appearance: "none" }}
+                    >
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                    </select>
+                    <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
+                  </div>
+                </div>
 
-          <button className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20">Add new option</button>
-        </div>
+                <button onClick={addVariantOpt} className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20">
+                  Add new option
+                </button>
+              </div>
+              {varOption.map((data, i) => {
+                return (
+                  <div key={i} className="bg-card01 br-20 py-2 px-3 d-flex justify-content-between mt-3">
+                    <div className="d-flex align-items-center">
+                      <img className="mr-3" src={require("assets/images/product/Drag.png")} alt="" />
+                      <select
+                        onChange={handleChange}
+                        value={data.name}
+                        name="name"
+                        data-id={i}
+                        className="form-control br-20 font-14 bg-transparent"
+                        style={{ appearance: "none" }}
+                      >
+                        <option>Pilih name</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Large">Large</option>
+                        <option value="Small">Small</option>
+                      </select>
+                    </div>
+                    <div className="d-flex align-items-center w-50">
+                      <div className="wrap-select mr-3 mr-3 bg-white br-20">
+                        <select
+                          value={data.type}
+                          data-id={i}
+                          name="type"
+                          onChange={handleChange}
+                          className="form-control  br-dark-blue br-20 font-14 bg-transparent"
+                          style={{ appearance: "none" }}
+                        >
+                          <option>Pilih type</option>
+                          <option value="Add">Add</option>
+                          <option value="Size">Size</option>
+                        </select>
+                        <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
+                      </div>
+                      <input
+                        onChange={handleChange}
+                        type="text"
+                        value={data.price}
+                        data-id={i}
+                        name="price"
+                        className="form-control bg-white br-20 br-dashed-dark-blue"
+                        placeholder="Rp. 0"
+                      />
+                    </div>
 
-        <div className="bg-card01 br-20 py-2 px-3 d-flex justify-content-between mt-3">
-          <div className="d-flex align-items-center">
-            <img className="mr-3" src={require("assets/images/product/Drag.png")} alt="" />
-            <p className="font-12">Small</p>
-          </div>
-          <div className="d-flex align-items-center w-50">
-            <div className="wrap-select mr-3 mr-3 bg-white br-20">
-              <select
-                className="form-control  br-dark-blue br-20 font-14 bg-transparent"
-                style={{ appearance: "none" }}
+                    <div className="d-flex">
+                      <div className="d-flex align-items-center mr-3">
+                        <p className="font-12 text-gray mr-2">Duplicate option</p>
+                        <img src={require("assets/images/product/copy (2).png")} alt="" />
+                      </div>
+
+                      <div className="d-flex align-items-center">
+                        <p className="font-12 text-gray mr-2">Delete option</p>
+                        <img src={require("assets/images/product/trash (2).png")} alt="" />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <button
+                className="btn bg-red text-white font-18 font-weight-bold br-20 position-absolute"
+                style={{ bottom: "10px", right: "30px" }}
               >
-                <option>Add</option>
-                <option>Add</option>
-              </select>
-              <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
+                Save updates
+              </button>
             </div>
-            <input type="text" className="form-control bg-white br-20 br-dashed-dark-blue" placeholder="Rp. 0" />
-          </div>
+          </Slide>
+        </>
+      ) : (
+        ""
+      )}
+      {updateVariant ? (
+        <>
+          <div onClick={handleUpdateModal} className="overlay-modal" style={{ display: "block" }}></div>
+          <Slide right>
+            <div className="modal-right p-4">
+              <div className="w-100 d-flex justify-content-between">
+                <h1 className="font-weight-bold font-24">Variant information</h1>
+                <div className="d-flex align-items-center">
+                  <div className="d-flex align-items-center mr-5">
+                    <p className="text-gray font-18 mr-3">Duplicate product</p>
+                    <img src={require("assets/images/product/copy (1).png")} alt="" />
+                  </div>
+                  <div className="d-flex align-items-center mr-5">
+                    <p className="text-gray font-18 mr-3">Delete product</p>
+                    <img src={require("assets/images/product/trash (1).png")} alt="" />
+                  </div>
+                  <img onClick={handleUpdateModal} src={require("assets/images/product/Close (1).png")} alt="" />
+                </div>
+              </div>
+              <hr className="my-3 mx-0" />
 
-          <div className="d-flex">
-            <div className="d-flex align-items-center mr-3">
-              <p className="font-12 text-gray mr-2">Duplicate option</p>
-              <img src={require("assets/images/product/copy (2).png")} alt="" />
-            </div>
+              <div className="d-flex align-items-center my-1">
+                <p className="font-14 mr-3">Varian name</p>
+                <input type="text" className="form-control w-25 br-20" placeholder="Size" />
+              </div>
 
-            <div className="d-flex align-items-center">
-              <p className="font-12 text-gray mr-2">Delete option</p>
-              <img src={require("assets/images/product/trash (2).png")} alt="" />
-            </div>
-          </div>
-        </div>
-        <div className="bg-card01 br-20 py-2 px-3 d-flex justify-content-between mt-3">
-          <div className="d-flex align-items-center">
-            <img className="mr-3" src={require("assets/images/product/Drag.png")} alt="" />
-            <p className="font-12">Small</p>
-          </div>
-          <div className="d-flex align-items-center w-50">
-            <div className="wrap-select mr-3 mr-3 bg-white br-20">
-              <select
-                className="form-control  br-dark-blue br-20 font-14 bg-transparent"
-                style={{ appearance: "none" }}
+              <hr className="my-3 mx-0" />
+
+              <div className="d-flex justify-content-between align-items-center mt-3">
+                <div className="d-flex align-items-center w-100">
+                  <p className="font-14 mr-3 ws-nwrap">Varian name</p>
+
+                  <div className="wrap-select w-25 mr-3">
+                    <select className="form-control br-20 font-14 bg-transparent" style={{ appearance: "none" }}>
+                      <option>Assigned to 8 products</option>
+                      <option>Filter</option>
+                    </select>
+                    <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
+                  </div>
+                </div>
+
+                <button className="btn bg-dark-blue text-white font-14 mr-2 ws-nwrap br-20">Add new option</button>
+              </div>
+
+              <div className="bg-card01 br-20 py-2 px-3 d-flex justify-content-between mt-3">
+                <div className="d-flex align-items-center">
+                  <img className="mr-3" src={require("assets/images/product/Drag.png")} alt="" />
+                  <p className="font-12">Small</p>
+                </div>
+                <div className="d-flex align-items-center w-50">
+                  <div className="wrap-select mr-3 mr-3 bg-white br-20">
+                    <select
+                      className="form-control  br-dark-blue br-20 font-14 bg-transparent"
+                      style={{ appearance: "none" }}
+                    >
+                      <option>Add</option>
+                      <option>Add</option>
+                    </select>
+                    <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
+                  </div>
+                  <input type="text" className="form-control bg-white br-20 br-dashed-dark-blue" placeholder="Rp. 0" />
+                </div>
+
+                <div className="d-flex">
+                  <div className="d-flex align-items-center mr-3">
+                    <p className="font-12 text-gray mr-2">Duplicate option</p>
+                    <img src={require("assets/images/product/copy (2).png")} alt="" />
+                  </div>
+
+                  <div className="d-flex align-items-center">
+                    <p className="font-12 text-gray mr-2">Delete option</p>
+                    <img src={require("assets/images/product/trash (2).png")} alt="" />
+                  </div>
+                </div>
+              </div>
+              <div className="bg-card01 br-20 py-2 px-3 d-flex justify-content-between mt-3">
+                <div className="d-flex align-items-center">
+                  <img className="mr-3" src={require("assets/images/product/Drag.png")} alt="" />
+                  <p className="font-12">Small</p>
+                </div>
+                <div className="d-flex align-items-center w-50">
+                  <div className="wrap-select mr-3 mr-3 bg-white br-20">
+                    <select
+                      className="form-control  br-dark-blue br-20 font-14 bg-transparent"
+                      style={{ appearance: "none" }}
+                    >
+                      <option>Add</option>
+                      <option>Add</option>
+                    </select>
+                    <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
+                  </div>
+                  <input type="text" className="form-control bg-white br-20 br-dashed-dark-blue" placeholder="Rp. 0" />
+                </div>
+
+                <div className="d-flex">
+                  <div className="d-flex align-items-center mr-3">
+                    <p className="font-12 text-gray mr-2">Duplicate option</p>
+                    <img src={require("assets/images/product/copy (2).png")} alt="" />
+                  </div>
+
+                  <div className="d-flex align-items-center">
+                    <p className="font-12 text-gray mr-2">Delete option</p>
+                    <img src={require("assets/images/product/trash (2).png")} alt="" />
+                  </div>
+                </div>
+              </div>
+              <div className="bg-card01 br-20 py-2 px-3 d-flex justify-content-between mt-3">
+                <div className="d-flex align-items-center">
+                  <img className="mr-3" src={require("assets/images/product/Drag.png")} alt="" />
+                  <p className="font-12">Small</p>
+                </div>
+                <div className="d-flex align-items-center w-50">
+                  <div className="wrap-select mr-3 mr-3 bg-white br-20">
+                    <select
+                      className="form-control  br-dark-blue br-20 font-14 bg-transparent"
+                      style={{ appearance: "none" }}
+                    >
+                      <option>Add</option>
+                      <option>Add</option>
+                    </select>
+                    <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
+                  </div>
+                  <input type="text" className="form-control bg-white br-20 br-dashed-dark-blue" placeholder="Rp. 0" />
+                </div>
+
+                <div className="d-flex">
+                  <div className="d-flex align-items-center mr-3">
+                    <p className="font-12 text-gray mr-2">Duplicate option</p>
+                    <img src={require("assets/images/product/copy (2).png")} alt="" />
+                  </div>
+
+                  <div className="d-flex align-items-center">
+                    <p className="font-12 text-gray mr-2">Delete option</p>
+                    <img src={require("assets/images/product/trash (2).png")} alt="" />
+                  </div>
+                </div>
+              </div>
+
+              <hr className="mx-0 my-2" />
+
+              <div className="d-flex justify-content-between align-items-start">
+                <div className="d-flex flex-column w-50">
+                  <p className="font-14 text-gray">Assigned products</p>
+                  <p className="font-14 text-gray mt-2">8 products</p>
+                </div>
+
+                <div className="d-flex flex-wrap">
+                  <button className="btn bg-dark-blue d-flex align-items-center mt-2 text-white fw-200 br-20 px-3 mr-3">
+                    <img className="mr-2" src={require("assets/images/outlet/icon-add.png")} alt="" />
+                    <span className="font-14">Insert product</span>
+                  </button>
+
+                  <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
+                    <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
+                    <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
+                  </button>
+
+                  <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
+                    <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
+                    <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
+                  </button>
+
+                  <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
+                    <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
+                    <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
+                  </button>
+
+                  <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
+                    <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
+                    <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
+                  </button>
+
+                  <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
+                    <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
+                    <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
+                  </button>
+
+                  <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
+                    <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
+                    <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
+                  </button>
+
+                  <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
+                    <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
+                    <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
+                  </button>
+                </div>
+              </div>
+
+              <button
+                className="btn bg-red text-white font-18 font-weight-bold br-20 position-absolute"
+                style={{ bottom: "10px", right: "30px" }}
               >
-                <option>Add</option>
-                <option>Add</option>
-              </select>
-              <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
+                Save updates
+              </button>
             </div>
-            <input type="text" className="form-control bg-white br-20 br-dashed-dark-blue" placeholder="Rp. 0" />
-          </div>
-
-          <div className="d-flex">
-            <div className="d-flex align-items-center mr-3">
-              <p className="font-12 text-gray mr-2">Duplicate option</p>
-              <img src={require("assets/images/product/copy (2).png")} alt="" />
-            </div>
-
-            <div className="d-flex align-items-center">
-              <p className="font-12 text-gray mr-2">Delete option</p>
-              <img src={require("assets/images/product/trash (2).png")} alt="" />
-            </div>
-          </div>
-        </div>
-        <div className="bg-card01 br-20 py-2 px-3 d-flex justify-content-between mt-3">
-          <div className="d-flex align-items-center">
-            <img className="mr-3" src={require("assets/images/product/Drag.png")} alt="" />
-            <p className="font-12">Small</p>
-          </div>
-          <div className="d-flex align-items-center w-50">
-            <div className="wrap-select mr-3 mr-3 bg-white br-20">
-              <select
-                className="form-control  br-dark-blue br-20 font-14 bg-transparent"
-                style={{ appearance: "none" }}
-              >
-                <option>Add</option>
-                <option>Add</option>
-              </select>
-              <img src={require("assets/images/product/Arrow-bottom2.png")} alt="" />
-            </div>
-            <input type="text" className="form-control bg-white br-20 br-dashed-dark-blue" placeholder="Rp. 0" />
-          </div>
-
-          <div className="d-flex">
-            <div className="d-flex align-items-center mr-3">
-              <p className="font-12 text-gray mr-2">Duplicate option</p>
-              <img src={require("assets/images/product/copy (2).png")} alt="" />
-            </div>
-
-            <div className="d-flex align-items-center">
-              <p className="font-12 text-gray mr-2">Delete option</p>
-              <img src={require("assets/images/product/trash (2).png")} alt="" />
-            </div>
-          </div>
-        </div>
-
-        <hr className="mx-0 my-2" />
-
-        <div className="d-flex justify-content-between align-items-start">
-          <div className="d-flex flex-column w-50">
-            <p className="font-14 text-gray">Assigned products</p>
-            <p className="font-14 text-gray mt-2">8 products</p>
-          </div>
-
-          <div className="d-flex flex-wrap">
-            <button className="btn bg-dark-blue d-flex align-items-center mt-2 text-white fw-200 br-20 px-3 mr-3">
-              <img className="mr-2" src={require("assets/images/outlet/icon-add.png")} alt="" />
-              <span className="font-14">Insert product</span>
-            </button>
-
-            <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
-              <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
-              <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
-            </button>
-
-            <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
-              <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
-              <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
-            </button>
-
-            <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
-              <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
-              <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
-            </button>
-
-            <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
-              <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
-              <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
-            </button>
-
-            <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
-              <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
-              <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
-            </button>
-
-            <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
-              <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
-              <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
-            </button>
-
-            <button className="btn bg-white d-flex align-items-center mr-3 mt-2 br-dark-blue text-dark-blue fw-200 br-20 px-3">
-              <span className="font-14 mr-2 font-weight-bold">Martabak Manis</span>
-              <img className="mr-2" src={require("assets/images/outlet/Close.png")} alt="" />
-            </button>
-          </div>
-        </div>
-
-        <button
-          className="btn bg-red text-white font-18 font-weight-bold br-20 position-absolute"
-          style={{ bottom: "10px", right: "30px" }}
-        >
-          Save updates
-        </button>
-      </div>
+          </Slide>
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 
