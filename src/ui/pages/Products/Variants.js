@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchVariant } from "store/actions/variant";
 import { Slide } from "react-reveal";
 import axios from "config";
+import { Link } from "react-router-dom";
 
 function Variants() {
   const dispatch = useDispatch();
@@ -84,12 +85,28 @@ function Variants() {
     <>
       <div className="d-flex flex-column w-100 pt-4 pb-2 px-4 bg-white">
         <div className="w-100 d-flex justify-content-between">
-          <div className="wrap-select mr-3" style={{ width: "13%" }}>
-            <select className="form-control mr-3 br-20 font-24 border-0">
-              <option>Variants</option>
-              <option>Filter</option>
-            </select>
-            <img src={require("assets/images/product/arrow-bottom.png")} alt="" />
+          <div className="wrap-select mr-3" style={{ width: "16%" }}>
+            <div className="dropdown mr-1">
+              <button
+                className="btn w-100 text-left btn-secondary dropdown-toggle font-24 fw-700 bg-white border-0 text-dark-blue"
+                id="dropdownMenuOffset"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-offset="10,20"
+              >
+                Product
+              </button>
+              <div className="dropdown-menu drp-down2 bg-transparent border-0" aria-labelledby="dropdownMenuOffset">
+                <Link to="/product/variants">
+                  <p className="dropdown-item shadow mt-2 br-20 border font-24 fw-700 text-center">Variants</p>
+                </Link>
+                <Link to="/product/categories">
+                  <p className="dropdown-item shadow mt-3 br-20 border font-24 fw-700 text-center">Categories</p>
+                </Link>
+              </div>
+              <img src={require("assets/images/product/arrow-bottom.png")} alt="" />
+            </div>
           </div>
 
           <div className="d-flex align-items-center">

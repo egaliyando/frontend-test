@@ -6,6 +6,7 @@ import { fetchCategory } from "store/actions/category";
 import { LOADING, LOADING_FINISH } from "store/types";
 import { Slide } from "react-reveal";
 import axios from "config";
+import { Link } from "react-router-dom";
 
 function Categories() {
   const dispatch = useDispatch();
@@ -64,7 +65,6 @@ function Categories() {
           <div className="wrap-select mr-3" style={{ width: "16%" }}>
             <div className="dropdown mr-1">
               <button
-                type="button"
                 className="btn w-100 text-left btn-secondary dropdown-toggle font-24 fw-700 bg-white border-0 text-dark-blue"
                 id="dropdownMenuOffset"
                 data-toggle="dropdown"
@@ -72,15 +72,15 @@ function Categories() {
                 aria-expanded="false"
                 data-offset="10,20"
               >
-                Product
+                Categories
               </button>
               <div className="dropdown-menu drp-down2 bg-transparent border-0" aria-labelledby="dropdownMenuOffset">
-                <a className="dropdown-item shadow mt-2 br-20 border font-24 fw-700 text-center" href="#">
-                  Variants
-                </a>
-                <a className="dropdown-item shadow mt-3 br-20 border font-24 fw-700 text-center" href="#">
-                  Categories
-                </a>
+                <Link to="/product">
+                  <p className="dropdown-item shadow mt-2 br-20 border font-24 fw-700 text-center">Product</p>
+                </Link>
+                <Link to="/product/variants">
+                  <p className="dropdown-item shadow mt-3 br-20 border font-24 fw-700 text-center">Variant</p>
+                </Link>
               </div>
               <img src={require("assets/images/product/arrow-bottom.png")} alt="" />
             </div>
